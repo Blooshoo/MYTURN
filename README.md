@@ -3,8 +3,8 @@
 A tiny SillyTavern extension that turns your **browser tab icon** into a status light, so you know when it's your turn again.
 
 - 🔵 **Spinner** while the LLM is generating a reply
-- ✅ **Green checkmark** when it finishes
-- ↩️ Reverts to the normal favicon once you click back to the tab (or after a few seconds)
+- ✅ **Green checkmark** when it finishes — and it **stays put until you return to the tab**
+- ↩️ Reverts to the normal favicon the moment you click back
 
 Tab away to do other things and just glance at the tab — MYTURN tells you when the bot is done.
 
@@ -13,7 +13,8 @@ Tab away to do other things and just glance at the tab — MYTURN tells you when
 - **Zero core edits.** Uses SillyTavern's official `GENERATION_STARTED` / `GENERATION_ENDED` / `GENERATION_STOPPED` events, so core updates won't break it.
 - **No image files.** Icons are drawn on a `<canvas>` at runtime — nothing to ship or get blurry.
 - Works for normal sends, swipes, regenerates, impersonation, and group chats (all go through the same events).
-- Small settings panel: enable/disable, "only when the tab is in the background", and checkmark duration.
+- **Checkmark persists until you revisit the tab** by default — no guessing whether you missed it. Optionally auto-hide it after X seconds instead.
+- Small settings panel: enable/disable, "only when the tab is in the background", and the auto-hide option.
 
 ## Installation
 

@@ -20,10 +20,18 @@
                 <span>Only when this tab is in the background</span>
             </label>
 
-            <label for="tgi_done_duration">
-                Checkmark duration: <span id="tgi_done_duration_value">2.0s</span>
+            <label class="checkbox_label" for="tgi_auto_revert">
+                <input id="tgi_auto_revert" type="checkbox" />
+                <span>Auto-hide the checkmark after a delay</span>
             </label>
-            <input id="tgi_done_duration" type="range" min="500" max="8000" step="500" value="2000" />
+            <small>By default the checkmark stays until you return to the tab.</small>
+
+            <div id="tgi_done_duration_row">
+                <label for="tgi_done_duration">
+                    Checkmark duration: <span id="tgi_done_duration_value">2.0s</span>
+                </label>
+                <input id="tgi_done_duration" type="range" min="500" max="8000" step="500" value="2000" />
+            </div>
         </div>
     </div>
 </div>

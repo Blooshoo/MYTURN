@@ -7,7 +7,8 @@ const TEMPLATE_PATH = 'third-party/MYTURN';
 const defaultSettings = Object.freeze({
     enabled: true,
     onlyWhenHidden: false,   // only swap the icon when the tab is not the active one
-    doneDuration: 2000,      // how long the checkmark stays before reverting (ms)
+    autoRevert: false,       // if false, the checkmark stays until you revisit the tab
+    doneDuration: 2000,      // when autoRevert is on, how long the checkmark stays (ms)
 });
 
 /** @returns {typeof defaultSettings} */
@@ -33,6 +34,7 @@ let originalHref = null;
 let spinnerTimer = null;
 let doneTimer = null;
 let spinnerAngle = 0;
+let checkmarkShowing = false; // true while the "done" checkmark is on the tab
 
 function getFaviconLink() {
     if (faviconLink && document.head.contains(faviconLink)) {
@@ -110,6 +112,7 @@ function clearTimers() {
 
 function restoreFavicon() {
     clearTimers();
+    checkmarkShowing = false;
     if (originalHref !== null) {
         getFaviconLink().setAttribute('href', originalHref);
     }
@@ -139,7 +142,14 @@ function showDone() {
     if (!document.hidden) { restoreFavicon(); return; }
 
     getFaviconLink().setAttribute('href', drawCheck());
-    doneTimer = setTimeout(restoreFavicon, settings.doneDuration);
+    checkmarkShowing = true;
+
+    // By default the checkmark persists until the user revisits the tab
+    // (handled by the visibilitychange listener). Only auto-revert on a
+    // timer when the user has explicitly opted in.
+    if (settings.autoRevert) {
+        doneTimer = setTimeout(restoreFavicon, settings.doneDuration);
+    }
 }
 
 // ---------------------------------------------------------------------------
@@ -161,7 +171,7 @@ function onGenerationStopped() {
 
 // Once the user comes back to the tab, the checkmark has done its job.
 document.addEventListener('visibilitychange', () => {
-    if (!document.hidden && doneTimer) {
+    if (!document.hidden && checkmarkShowing) {
         restoreFavicon();
     }
 });
@@ -177,13 +187,21 @@ async function addSettingsUI() {
 
     const $enabled = $('#tgi_enabled');
     const $onlyHidden = $('#tgi_only_hidden');
+    const $autoRevert = $('#tgi_auto_revert');
     const $duration = $('#tgi_done_duration');
     const $durationVal = $('#tgi_done_duration_value');
+    const $durationRow = $('#tgi_done_duration_row');
+
+    function syncDurationRow() {
+        $durationRow.toggle(settings.autoRevert);
+    }
 
     $enabled.prop('checked', settings.enabled);
     $onlyHidden.prop('checked', settings.onlyWhenHidden);
+    $autoRevert.prop('checked', settings.autoRevert);
     $duration.val(settings.doneDuration);
     $durationVal.text(`${(settings.doneDuration / 1000).toFixed(1)}s`);
+    syncDurationRow();
 
     $enabled.on('change', function () {
         settings.enabled = !!$(this).prop('checked');
@@ -193,6 +211,12 @@ async function addSettingsUI() {
 
     $onlyHidden.on('change', function () {
         settings.onlyWhenHidden = !!$(this).prop('checked');
+        saveSettingsDebounced();
+    });
+
+    $autoRevert.on('change', function () {
+        settings.autoRevert = !!$(this).prop('checked');
+        syncDurationRow();
         saveSettingsDebounced();
     });
 
