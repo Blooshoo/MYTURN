@@ -2,6 +2,8 @@
 
 A tiny SillyTavern extension that turns your **browser tab icon** into a status light, so you know when it's your turn again.
 
+![MYTURN demo](demo.gif)
+
 - 🔵 **Spinner** while the LLM is generating a reply
 - ✅ **Green checkmark** when it finishes — and it **stays put until you return to the tab**
 - ↩️ Reverts to the normal favicon the moment you click back
