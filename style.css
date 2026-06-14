@@ -1,0 +1,8 @@
+#myturn_settings .inline-drawer-content > label {
+    margin-top: 8px;
+    display: block;
+}
+
+#myturn_settings input[type="range"] {
+    width: 100%;
+}

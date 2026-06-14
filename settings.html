@@ -1,0 +1,29 @@
+<div id="myturn_settings">
+    <div class="inline-drawer">
+        <div class="inline-drawer-toggle inline-drawer-header">
+            <b>MYTURN</b>
+            <div class="inline-drawer-icon fa-solid fa-circle-chevron-down down"></div>
+        </div>
+        <div class="inline-drawer-content">
+            <small>
+                Shows a spinner on the browser tab icon while a reply is generating,
+                and a checkmark when it finishes — so you can tab away and glance back.
+            </small>
+
+            <label class="checkbox_label" for="tgi_enabled">
+                <input id="tgi_enabled" type="checkbox" />
+                <span>Enabled</span>
+            </label>
+
+            <label class="checkbox_label" for="tgi_only_hidden">
+                <input id="tgi_only_hidden" type="checkbox" />
+                <span>Only when this tab is in the background</span>
+            </label>
+
+            <label for="tgi_done_duration">
+                Checkmark duration: <span id="tgi_done_duration_value">2.0s</span>
+            </label>
+            <input id="tgi_done_duration" type="range" min="500" max="8000" step="500" value="2000" />
+        </div>
+    </div>
+</div>
